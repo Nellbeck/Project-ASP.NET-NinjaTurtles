@@ -18,7 +18,8 @@ namespace Project_ASP.NET_NinjaTurtles.Models
         [StringLength(20)]
         public string CustomerPhone { get; set; }
         [Required]
-        public DateOnly BirthDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/YY}", ApplyFormatInEditMode = true)]
+        public DateTime CustomerBirthDate { get; set; }
         [Required]
         [StringLength(50)]
         public string Address {  get; set; }
