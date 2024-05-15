@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Project_ASP.NET_NinjaTurtles.Data;
+using Project_ASP.NET_NinjaTurtles.Services;
 
 namespace Project_ASP.NET_NinjaTurtles
 {
@@ -17,8 +18,18 @@ namespace Project_ASP.NET_NinjaTurtles
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddRazorPages();
+
+            builder.Services.AddHttpClient("API Client", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7058/");
+            });
+
+            builder.Services.AddScoped<APIService>();
 
             var app = builder.Build();
 

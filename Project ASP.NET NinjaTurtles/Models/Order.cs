@@ -12,7 +12,7 @@ namespace Project_ASP.NET_NinjaTurtles.Models
         public Customer Customer { get; set; }
         [ForeignKey("Product")]
         public Guid FKProductId { get; set; }
-        public Product Products { get; set; }
+        public Product Product { get; set; }
         public DateTime OrderDate { get; set; }
         public int OrderQuantity { get; set; }
 
