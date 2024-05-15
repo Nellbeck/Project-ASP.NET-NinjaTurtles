@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Project_ASP.NET_NinjaTurtles.Data;
+using Project_ASP.NET_NinjaTurtles.Utility;
 
 namespace Project_ASP.NET_NinjaTurtles
 {
@@ -16,8 +18,13 @@ namespace Project_ASP.NET_NinjaTurtles
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
+            builder.Services.AddControllersWithViews();
+            builder.Services.AddRazorPages();
+  
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
