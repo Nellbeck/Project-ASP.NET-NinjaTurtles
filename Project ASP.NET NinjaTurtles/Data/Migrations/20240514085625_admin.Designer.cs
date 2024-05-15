@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_ASP.NET_NinjaTurtles.Data;
 
@@ -11,9 +12,11 @@ using Project_ASP.NET_NinjaTurtles.Data;
 namespace Project_ASP.NET_NinjaTurtles.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240514085625_admin")]
+    partial class admin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,8 +234,8 @@ namespace Project_ASP.NET_NinjaTurtles.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("CustomerBirthDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("BirthDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("CustomerEmail")
                         .IsRequired()
@@ -275,11 +278,14 @@ namespace Project_ASP.NET_NinjaTurtles.Data.Migrations
                     b.Property<int>("OrderQuantity")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("ProductsProductId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("OrderId");
 
                     b.HasIndex("FKCustomerId");
 
-                    b.HasIndex("FKProductId");
+                    b.HasIndex("ProductsProductId");
 
                     b.ToTable("Orders");
                 });
@@ -370,15 +376,15 @@ namespace Project_ASP.NET_NinjaTurtles.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Product", "Product")
+                    b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Product", "Products")
                         .WithMany("Orders")
-                        .HasForeignKey("FKProductId")
+                        .HasForeignKey("ProductsProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");
 
-                    b.Navigation("Product");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Project_ASP.NET_NinjaTurtles.Models.Customer", b =>
