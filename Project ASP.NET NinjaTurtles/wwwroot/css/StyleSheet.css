@@ -1,0 +1,19 @@
+﻿body {
+}
+
+footer {
+    position: absolute; /* Fixera fotern längst ned på sidan */
+    bottom: 0; /* Placera fotern längst ned */
+    width: 100%; /* Ta hela bredden av sidan */
+    background-color: #f8f9fa; /* Bakgrundsfärg */
+    color: #5a5a5a;
+    padding: 20px;
+}
+#orderMonth{
+    width: 900px;
+    height: 400px;
+}
+#productsInStock {
+    width: 800px;
+    height: 800px;
+}

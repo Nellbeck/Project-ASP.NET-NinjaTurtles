@@ -1,0 +1,44 @@
+﻿@model IList<IGrouping<DateTime, Order>>
+
+<div>
+    <canvas id="salesPerDay"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const context = document.getElementById('salesPerDay');
+
+    new Chart(context, {
+        type: 'bar',
+        data: {
+            labels: [@foreach (var date in Model)
+    {
+        @Html.Raw("'" + @date.Key.ToString("yyyy-MM-dd") + "'")
+        @Html.Raw(",")
+    }],
+            datasets: [
+                {
+                    label: 'Antal köp per dag',
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    data: [@foreach (var count in Model)
+    {
+        @count.Count()
+        @Html.Raw(",")
+    }]
+                }
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>

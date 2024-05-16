@@ -17,7 +17,7 @@ namespace Project_ASP.NET_NinjaTurtles.Models
         public string ProductDescription { get; set; }
         public int ProductQuantity { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public ICollection<Order> Orders { get; set; }
+        public ICollection<Order>? Orders { get; set; }
 
     }
 }
