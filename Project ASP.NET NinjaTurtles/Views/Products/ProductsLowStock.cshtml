@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Product>
+@{
+    var lowStock = 0;
+    var highStock = 0;
+}
+
+@foreach(var product in Model)
+{
+    if(product.ProductQuantity < 20)
+    {
+        lowStock++;
+    }
+    if(product.ProductQuantity >= 20)
+    {
+        highStock++;
+    }
+}
+
+
+<div id="productsInStock">
+    @* skapar själva diagramet *@
+    <canvas id="lowStock"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    //skapar en variabel av diagramet/kanvasen och döper till context
+    const context = document.getElementById('lowStock');
+
+    //skapar nytt chart objekt
+    new Chart(context, {
+        type: 'pie',
+        data: {
+            labels: ['Produkter som har mindre än 20 i lager', 'Produkter som har mer än 20 i lager'],
+            datasets: [{
+                data: [@lowStock, @highStock],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)', // Låg
+                    'rgba(255, 99, 132, 0.2)' // Hög
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)', // Låg
+                    'rgba(255, 99, 132, 1)' // Hög
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

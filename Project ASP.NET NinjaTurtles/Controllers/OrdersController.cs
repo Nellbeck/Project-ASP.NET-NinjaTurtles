@@ -48,7 +48,8 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["FKCustomerId"] = new SelectList(_context.Customers, "CustomerId", "Address");
+            ViewData["FKCustomerId"] = new SelectList(_context.Customers, "CustomerId", "CustomerName");
+            ViewData["FKProductId"] = new SelectList(_context.Products, "ProductId", "ProductName");
             return View();
         }
 
@@ -156,6 +157,23 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> Dashboard()
+        {
+            var orders = await _context.Orders.Include(p => p.Products).Include(c => c.Customer).ToListAsync();
+            return View(orders);
+        }
+
+        public async Task<IActionResult> SalesPerDay()
+        {
+            var ordersPerDay = await _context.Orders
+                .Include(p => p.Products)
+                .Include(c => c.Customer)
+                .GroupBy(s => s.OrderDate)
+                .ToListAsync();
+
+            return View(ordersPerDay);
+        }
+
 
         private bool OrderExists(Guid id)
         {

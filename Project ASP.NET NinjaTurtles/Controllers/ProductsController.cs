@@ -149,6 +149,12 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> ProductsLowStock()
+        {
+            var products = await _context.Products.ToListAsync();
+
+            return View(products);
+        }
 
         private bool ProductExists(Guid id)
         {
