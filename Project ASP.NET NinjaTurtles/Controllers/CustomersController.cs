@@ -7,34 +7,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Project_ASP.NET_NinjaTurtles.Data;
 using Project_ASP.NET_NinjaTurtles.Models;
+using Project_ASP.NET_NinjaTurtles.Services;
 
 namespace Project_ASP.NET_NinjaTurtles.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly APIService _APIService;
 
-        public CustomersController(ApplicationDbContext context)
+        public CustomersController(APIService aPIService)
         {
-            _context = context;
+            _APIService = aPIService;
         }
 
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            return View(await _APIService.GetCutomersAsync()); ;
         }
 
         // GET: Customers/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(Guid id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.CustomerId == id);
+            var customer = await _APIService.FindCustomerAsync(id);
             if (customer == null)
             {
                 return NotFound();
@@ -54,27 +54,26 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,CustomerName,CustomerEmail,CustomerPhone,BirthDate,Address,ZipCode")] Customer customer)
+        public async Task<IActionResult> Create([Bind("CustomerId,CustomerName,CustomerEmail,CustomerPhone,CustomerBirthDate,CustomerAddress,CustomerZipCode")] Customer customer)
         {
             if (ModelState.IsValid)
             {
                 customer.CustomerId = Guid.NewGuid();
-                _context.Add(customer);
-                await _context.SaveChangesAsync();
+                await _APIService.AddCustomerAsync(customer);
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
         }
 
         // GET: Customers/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _APIService.FindCustomerAsync(id);
             if (customer == null)
             {
                 return NotFound();
@@ -87,7 +86,7 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("CustomerId,CustomerName,CustomerEmail,CustomerPhone,BirthDate,Address,ZipCode")] Customer customer)
+        public async Task<IActionResult> Edit(Guid id, [Bind("CustomerId,CustomerName,CustomerEmail,CustomerPhone,CustomerBirthDate,CustomerAddress,CustomerZipCode")] Customer customer)
         {
             if (id != customer.CustomerId)
             {
@@ -98,19 +97,15 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
+                    await _APIService.UpdateCustomerAsync(id, customer);
+
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
-                    if (!CustomerExists(customer.CustomerId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
+                    
+                    
                         throw;
-                    }
+                    
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -118,15 +113,14 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         }
 
         // GET: Customers/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.CustomerId == id);
+            var customer = await _APIService.FindCustomerAsync(id);
             if (customer == null)
             {
                 return NotFound();
@@ -140,19 +134,12 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _APIService.FindCustomerAsync(id);
             if (customer != null)
             {
-                _context.Customers.Remove(customer);
+                await _APIService.DeleteCustomerAsync(id);
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CustomerExists(Guid id)
-        {
-            return _context.Customers.Any(e => e.CustomerId == id);
         }
     }
 }

@@ -18,14 +18,14 @@ namespace Project_ASP.NET_NinjaTurtles.Models
         [StringLength(20)]
         public string CustomerPhone { get; set; }
         [Required]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/YY}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:YYYY/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime CustomerBirthDate { get; set; }
         [Required]
         [StringLength(50)]
-        public string Address {  get; set; }
+        public string CustomerAddress {  get; set; }
         [Required]
         [Range(0,100000)]
-        public int ZipCode { get; set; }
+        public int CustomerZipCode { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public ICollection<Order>? Orders { get; set; }
     }
