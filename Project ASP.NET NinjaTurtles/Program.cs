@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Project_ASP.NET_NinjaTurtles.Data;
 using Project_ASP.NET_NinjaTurtles.Services;
+using Project_ASP.NET_NinjaTurtles.Utility;
 
 namespace Project_ASP.NET_NinjaTurtles
 {
@@ -17,9 +19,10 @@ namespace Project_ASP.NET_NinjaTurtles
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            .AddEntityFrameworkStores<ApplicationDbContext>();
-
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddScoped<IEmailSender, EmailSender, APIService>();
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddRazorPages();
@@ -28,8 +31,6 @@ namespace Project_ASP.NET_NinjaTurtles
             {
                 client.BaseAddress = new Uri("https://localhost:7058/");
             });
-
-            builder.Services.AddScoped<APIService>();
 
             var app = builder.Build();
 
