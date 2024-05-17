@@ -1,0 +1,132 @@
+﻿@model IEnumerable<Order>
+@{
+    var januari = 0;
+    var februari = 0;
+    var mars = 0;
+    var april = 0;
+    var maj = 0;
+    var juni = 0;
+    var juli = 0;
+    var augusti = 0;
+    var september = 0;
+    var oktober = 0;
+    var november = 0;
+    var december = 0;
+
+}
+
+<div class="col-md-9">
+    <h3>Alla ordrar månadsvis</h3>
+            @if (Model == null)
+            {
+                <p>Inga ordrar hittades</p>
+            }
+            else
+            {
+                @foreach (var order in Model)
+                {
+                    if (order.OrderDate.Month == 1)
+                    {
+                        januari++;
+                    }
+                    if (order.OrderDate.Month == 2)
+                    {
+                        februari++;
+                    }
+                    if (order.OrderDate.Month == 3)
+                    {
+                        mars++;
+                    }
+                    if (order.OrderDate.Month == 4)
+                    {
+                        april++;
+                    }
+                    if (order.OrderDate.Month == 5)
+                    {
+                        maj++;
+                    }
+                    if (order.OrderDate.Month == 6)
+                    {
+                        juni++;
+                    }
+                    if (order.OrderDate.Month == 7)
+                    {
+                        juli++;
+                    }
+                    if (order.OrderDate.Month == 8)
+                    {
+                        augusti++;
+                    }
+                    if (order.OrderDate.Month == 9)
+                    {
+                        september++;
+                    }
+                    if (order.OrderDate.Month == 10)
+                    {
+                        oktober++;
+                    }
+
+                    if (order.OrderDate.Month == 11)
+                    {
+                        november++;
+                    }
+                    if (order.OrderDate.Month == 12)
+                    {
+                        december++;
+                    }
+                }
+            }
+</div>
+
+<div id="orderMonth">
+    <!-- skapar själva diagramet -->
+    <canvas id="orderChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    const context = document.getElementById('orderChart').getContext('2d');
+
+    new Chart(context, {
+        type: 'bar',
+        data: {
+            labels: ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'],
+            datasets: [{
+                data: [@januari, @februari, @mars, @april, @maj, @juni, @juni, @augusti, @september, @oktober, @november, @december],
+                backgroundColor: [
+                    'rgba(70,204,170)', // januari/undefined
+                    'rgba(255,167,142)', // februari
+                    'rgba(255,167,142)', // mars
+                    'rgba(255,223,156)', // april
+                    'rgba(255,167,142)', // maj
+                    'rgba(255,167,142)', // juni
+                    'rgba(255,167,142)', // juli
+                    'rgba(255,167,142)', // augusti
+                    'rgba(255,167,142)', // september
+                    'rgba(255,167,142)', // oktober
+                    'rgba(255,167,142)', // november
+                    'rgba(255,167,142)', // december
+
+                ]
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+<div>
+    <a asp-action="Index">Gå tillbaka</a>
+</div>
+<div>
+    <a asp-action="SalesPerDay">Sales per day</a>
+</div>
+<div>
+    <a asp-controller="Products" asp-action="ProductsLowStock">Products in stock</a>
+</div>

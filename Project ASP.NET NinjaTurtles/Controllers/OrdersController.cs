@@ -47,6 +47,7 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
+
             var customerListItems = _service.GetCutomersAsync().Result;
             ViewData["FKCustomerId"] = new SelectList(customerListItems, "CustomerId", "CustomerName");
 
@@ -155,6 +156,27 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
             {
                 await _service.DeleteOrderAsync(id);
             }
+
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Dashboard()
+        {
+            var orders = await _context.Orders.Include(p => p.Products).Include(c => c.Customer).ToListAsync();
+            return View(orders);
+        }
+
+        public async Task<IActionResult> SalesPerDay()
+        {
+            var ordersPerDay = await _context.Orders
+                .Include(p => p.Products)
+                .Include(c => c.Customer)
+                .GroupBy(s => s.OrderDate)
+                .ToListAsync();
+
+            return View(ordersPerDay);
+        }
 
 
             return RedirectToAction(nameof(Index));
