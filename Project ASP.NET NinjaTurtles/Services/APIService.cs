@@ -121,5 +121,59 @@ namespace Project_ASP.NET_NinjaTurtles.Services
             var response = await _client.DeleteAsync($"products/{id}");
             response.EnsureSuccessStatusCode();
         }
+
+        //////////////// Order //////////////////
+
+        public async Task<List<Order>> GetOrdersAsync()
+        {
+            try
+            {
+                var response = await _client.GetAsync("orders");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new List<Order>();
+                }
+                var jsonstring = await response.Content.ReadAsStringAsync();
+                var orders = JsonConvert.DeserializeObject<List<Order>>(jsonstring);
+                return orders;
+            }
+            catch (Exception ex)
+            {
+                return new List<Order>();
+            }
+        }
+
+        public async Task AddOrdersAsync(Order order)
+        {
+            var json = JsonConvert.SerializeObject(order);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync("orders", data);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task UpdateOrderAsync(Guid id, Order order)
+        {
+            var json = JsonConvert.SerializeObject(order);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var respone = await _client.PutAsync($"orders/{id}", data);
+            respone.EnsureSuccessStatusCode();
+        }
+        public async Task<Order> FindOrderAsync(Guid id)
+        {
+            var response = await _client.GetAsync($"orders/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<Order>();
+            }
+            else
+            {
+                throw new InvalidOperationException($"API failed {response.StatusCode}");
+            }
+        }
+        public async Task DeleteOrderAsync(Guid id)
+        {
+            var response = await _client.DeleteAsync($"orders/{id}");
+            response.EnsureSuccessStatusCode();
+        }
     }
 }
