@@ -22,13 +22,13 @@
                 @Html.DisplayNameFor(model => model.CustomerPhone)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
+                @Html.DisplayNameFor(model => model.CustomerBirthDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                @Html.DisplayNameFor(model => model.CustomerAddress)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ZipCode)
+                @Html.DisplayNameFor(model => model.CustomerZipCode)
             </th>
             <th></th>
         </tr>
@@ -46,13 +46,13 @@
                 @Html.DisplayFor(modelItem => item.CustomerPhone)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BirthDate)
+                    @Html.DisplayFor(modelItem => item.CustomerBirthDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Address)
+                @Html.DisplayFor(modelItem => item.CustomerAddress)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ZipCode)
+                @Html.DisplayFor(modelItem => item.CustomerZipCode)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |

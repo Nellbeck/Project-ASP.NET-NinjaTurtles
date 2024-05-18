@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Project_ASP.NET_NinjaTurtles.Data;
-using System.Text.Json.Serialization;
+using Project_ASP.NET_NinjaTurtles.Services;
+using Project_ASP.NET_NinjaTurtles.Utility;
 
 namespace Project_ASP.NET_NinjaTurtles
 {
@@ -17,9 +19,18 @@ namespace Project_ASP.NET_NinjaTurtles
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddScoped<IEmailSender, EmailSender, APIService>();
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddRazorPages();
+
+            builder.Services.AddHttpClient("API Client", client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:7058/");
+            });
 
             var app = builder.Build();
 

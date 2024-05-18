@@ -7,34 +7,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Project_ASP.NET_NinjaTurtles.Data;
 using Project_ASP.NET_NinjaTurtles.Models;
+using Project_ASP.NET_NinjaTurtles.Services;
 
 namespace Project_ASP.NET_NinjaTurtles.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly APIService _APIService;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(APIService APIService)
         {
-            _context = context;
+            _APIService = APIService;
         }
 
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            return View(await _APIService.GetProductsAsync());
         }
 
         // GET: Products/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(Guid id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+            var product = await _APIService.FindProductAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -59,22 +59,21 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
             if (ModelState.IsValid)
             {
                 product.ProductId = Guid.NewGuid();
-                _context.Add(product);
-                await _context.SaveChangesAsync();
+                await _APIService.AddProductAsync(product);
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
         }
 
         // GET: Products/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await _APIService.FindProductAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -98,19 +97,12 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
             {
                 try
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    await _APIService.UpdateProductAsync(id, product);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.ProductId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
                         throw;
-                    }
+                    
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -118,15 +110,14 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         }
 
         // GET: Products/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+            var product = await _APIService.FindProductAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -140,13 +131,12 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _APIService.FindProductAsync(id);
             if (product != null)
             {
-                _context.Products.Remove(product);
+                await _APIService.DeleteProductAsync(id);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -154,5 +144,6 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         {
             return _context.Products.Any(e => e.ProductId == id);
         }
+
     }
 }
