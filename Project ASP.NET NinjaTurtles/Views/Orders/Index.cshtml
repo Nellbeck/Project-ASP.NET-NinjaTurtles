@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Index";
 }
-
 <h1>Index</h1>
 
 <p>
@@ -14,6 +13,9 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Customer.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products.ProductPrice)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.OrderDate)
@@ -30,6 +32,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.FKProductId)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Products.ProductPrice)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OrderDate)
             </td>

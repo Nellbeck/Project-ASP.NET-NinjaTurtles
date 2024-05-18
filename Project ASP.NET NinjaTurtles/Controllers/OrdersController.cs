@@ -161,21 +161,30 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> Dashboard()
-        {
-            var orders = await _context.Orders.Include(p => p.Products).Include(c => c.Customer).ToListAsync();
-            return View(orders);
-        }
 
-        public async Task<IActionResult> SalesPerDay()
+        public async Task<IActionResult> ShowDashboard()
         {
             var ordersPerDay = await _context.Orders
                 .Include(p => p.Products)
-                .Include(c => c.Customer)
+    .           Include(c => c.Customer)
                 .GroupBy(s => s.OrderDate)
                 .ToListAsync();
 
-            return View(ordersPerDay);
+            var ordersPerMonth = await _context.Orders
+                .Include(p => p.Products)
+                .Include(c => c.Customer)
+                .ToListAsync();
+
+            var products = await _context.Products.ToListAsync();
+
+            var model = new DashboardViewModel
+            {
+                GroupedOrders = ordersPerDay,
+                Orders = ordersPerMonth,
+                Products = products
+            };
+
+            return View(model);
         }
 
 

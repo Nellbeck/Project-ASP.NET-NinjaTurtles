@@ -140,13 +140,6 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> ProductsLowStock()
-        {
-            var products = await _context.Products.ToListAsync();
-
-            return View(products);
-        }
-
         private bool ProductExists(Guid id)
         {
             return _context.Products.Any(e => e.ProductId == id);
