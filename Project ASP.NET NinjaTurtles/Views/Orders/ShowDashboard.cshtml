@@ -1,0 +1,222 @@
+﻿@model DashboardViewModel
+
+
+@{
+    var low = new List<Product>();
+    var medium = new List<Product>();
+    var high = new List<Product>();
+}
+
+@foreach (var item in Model.Products)
+{
+    if (item.ProductQuantity < 20)
+    {
+        low.Add(item);
+    }
+    if (item.ProductQuantity >= 20 && item.ProductQuantity < 40)
+    {
+        medium.Add(item);
+    }
+    else if (item.ProductQuantity >= 40)
+    {
+        high.Add(item);
+    }
+}
+@{
+    var januari = 0;
+    var februari = 0;
+    var mars = 0;
+    var april = 0;
+    var maj = 0;
+    var juni = 0;
+    var juli = 0;
+    var augusti = 0;
+    var september = 0;
+    var oktober = 0;
+    var november = 0;
+    var december = 0;
+
+}
+    @if (Model == null)
+    {
+        <p>Inga ordrar hittades</p>
+    }
+    else
+    {
+        @foreach (var order in Model.Orders)
+        {
+            if (order.OrderDate.Month == 1)
+            {
+                januari++;
+            }
+            if (order.OrderDate.Month == 2)
+            {
+                februari++;
+            }
+            if (order.OrderDate.Month == 3)
+            {
+                mars++;
+            }
+            if (order.OrderDate.Month == 4)
+            {
+                april++;
+            }
+            if (order.OrderDate.Month == 5)
+            {
+                maj++;
+            }
+            if (order.OrderDate.Month == 6)
+            {
+                juni++;
+            }
+            if (order.OrderDate.Month == 7)
+            {
+                juli++;
+            }
+            if (order.OrderDate.Month == 8)
+            {
+                augusti++;
+            }
+            if (order.OrderDate.Month == 9)
+            {
+                september++;
+            }
+            if (order.OrderDate.Month == 10)
+            {
+                oktober++;
+            }
+
+            if (order.OrderDate.Month == 11)
+            {
+                november++;
+            }
+            if (order.OrderDate.Month == 12)
+            {
+                december++;
+            }
+        }
+    }
+<div class="row dashboard-container">
+<div class="dashboard col-md-6">
+    <canvas id="orderPerDay"></canvas>
+</div>
+    <div class="dashboard col-md-6">
+    <canvas id="productStock"></canvas>
+</div>
+    <div class="dashboard col-md-6">
+    <canvas id="orderMonth"></canvas>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.0.2/dist/chartjs-plugin-annotation.min.js"></script>
+
+    <script>
+        const monthContext = document.getElementById('orderPerDay');
+
+        new Chart(monthContext, {
+            type: 'bar',
+            data: {
+                labels: [@foreach (var date in Model.GroupedOrders)
+        {
+            @Html.Raw("'" + @date.Key.ToString("yyyy-MM-dd") + "'")
+            @Html.Raw(",")
+        }],
+                datasets: [
+                    {
+                        label: 'Antal köp per dag',
+                    backgroundColor: 'rgba(255, 223, 156)',
+                    borderColor: 'rgba(204, 178, 125)',
+                        borderWidth: 1,
+                        data: [@foreach (var count in Model.GroupedOrders)
+                            {
+                                @count.Count()
+                                @Html.Raw(",")
+                            }
+                        ]
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        const context = document.getElementById('orderMonth').getContext('2d');
+
+        new Chart(context, {
+            type: 'bar',
+            data: {
+                labels: ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'],
+                datasets: [
+                {
+                    label: 'Antal köp per månad',
+                    backgroundColor: 'rgba(255,167,142)',
+                    borderColor: 'rgba(235, 137, 112)',
+                    borderWidth: 1,
+                    data: [@januari, @februari, @mars, @april, @maj, @juni, @juni, @augusti, @september, @oktober, @november, @december]
+                }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+
+    const productContext = document.getElementById('productStock');
+
+    new Chart(productContext, {
+        type: 'bar',
+        data: {
+            labels: [@foreach (var item in Model.Products) { @Html.Raw("\"" + item.ProductName + "\",") }],
+                datasets: [
+                    {
+                        label: 'Lagerstatus',
+                        data: [@foreach (var item in Model.Products)
+                            {
+                                @Html.Raw(item.ProductQuantity + ",")
+                            }
+                        ],
+                    backgroundColor: ['rgba(147, 195, 182)'],
+                    borderColor: ['rgba(127, 165, 152)'],
+                    borderWidth: 1
+                    }
+                    ]
+         },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 20,
+                            yMax: 20,
+                            borderColor: 'red',
+                            borderWidth: 2,
+                            label: {
+                                enabled: true,
+                                content: 'Lagergräns 20',
+                                position: 'end'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+    </script>

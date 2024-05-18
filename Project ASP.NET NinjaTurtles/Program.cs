@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Project_ASP.NET_NinjaTurtles.Data;
+using System.Text.Json.Serialization;
 
 namespace Project_ASP.NET_NinjaTurtles
 {
