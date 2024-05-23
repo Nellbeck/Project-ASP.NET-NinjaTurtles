@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Project_ASP.NET_NinjaTurtles.Models;
 using System.Text;
 
@@ -143,6 +145,25 @@ namespace Project_ASP.NET_NinjaTurtles.Services
             }
         }
 
+        public async Task<List<Order>> GetDashboardAsync()
+        {
+            try
+            {
+                var response = await _client.GetAsync("dashboards");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new List<Order>();
+                }
+                var jsonstring = await response.Content.ReadAsStringAsync();
+                var orders = JsonConvert.DeserializeObject<List<Order>>(jsonstring);
+                return orders;
+            }
+            catch (Exception ex)
+            {
+                return new List<Order>();
+            }
+        }
+
         public async Task AddOrdersAsync(Order order)
         {
             var json = JsonConvert.SerializeObject(order);
@@ -175,5 +196,6 @@ namespace Project_ASP.NET_NinjaTurtles.Services
             var response = await _client.DeleteAsync($"orders/{id}");
             response.EnsureSuccessStatusCode();
         }
+
     }
 }

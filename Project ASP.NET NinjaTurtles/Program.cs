@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Project_ASP.NET_NinjaTurtles.Data;
 using Project_ASP.NET_NinjaTurtles.Services;
 using Project_ASP.NET_NinjaTurtles.Utility;
@@ -14,24 +15,29 @@ namespace Project_ASP.NET_NinjaTurtles
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
-            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddDefaultTokenProviders()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-            builder.Services.AddScoped<APIService>();
-            builder.Services.AddScoped<IEmailSender, EmailSender>();
+            //ANTAR ATT DETTA SKA BORT EFTERSOM VI SKA G� VIA APIET
+            //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(connectionString));
+            //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
             builder.Services.AddControllersWithViews();
-
-            builder.Services.AddRazorPages();
 
             builder.Services.AddHttpClient("API Client", client =>
             {
                 client.BaseAddress = new Uri("https://localhost:7058/");
             });
+
+            //builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddDefaultTokenProviders()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //builder.Services.AddScoped<IEmailSender, EmailSender>(); //DENNA GER ERROR F�R MIG /FM
+
+            builder.Services.AddScoped<APIService>();
+
+            builder.Services.AddRazorPages();
 
             var app = builder.Build();
 

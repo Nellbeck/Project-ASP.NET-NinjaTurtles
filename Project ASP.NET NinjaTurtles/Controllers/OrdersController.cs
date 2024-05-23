@@ -23,8 +23,13 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var order = await _service.GetOrdersAsync();    
-            return View(order);
+            var orders = await _service.GetOrdersAsync();
+
+            if (orders == null)
+            {
+                return View(new List<Order>());
+            }
+            return View(orders);
         }
 
         // GET: Orders/Details/5
@@ -157,25 +162,8 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
             {
                 await _service.DeleteOrderAsync(id);
             }
-
+            
             return RedirectToAction(nameof(Index));
         }
-        //public async Task<IActionResult> Dashboard()
-        //{
-        //    var orders = await _context.Orders.Include(p => p.Products).Include(c => c.Customer).ToListAsync();
-        //    return View(orders);
-        //}
-
-        //public async Task<IActionResult> SalesPerDay()
-        //{
-        //    var ordersPerDay = await _context.Orders
-        //        .Include(p => p.Products)
-        //        .Include(c => c.Customer)
-        //        .GroupBy(s => s.OrderDate)
-        //        .ToListAsync();
-
-        //    return View(ordersPerDay);
-        //}
-        
     }
 }

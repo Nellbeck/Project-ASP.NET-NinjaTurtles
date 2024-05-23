@@ -139,6 +139,5 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
     }
 }
