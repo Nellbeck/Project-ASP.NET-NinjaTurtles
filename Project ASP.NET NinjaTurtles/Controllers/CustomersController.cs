@@ -102,10 +102,7 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
                 }
                 catch (Exception)
                 {
-                    
-                    
                         throw;
-                    
                 }
                 return RedirectToAction(nameof(Index));
             }

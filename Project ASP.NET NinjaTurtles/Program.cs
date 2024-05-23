@@ -16,8 +16,7 @@ namespace Project_ASP.NET_NinjaTurtles
 
             // Add services to the container.
 
-            //ANTAR ATT DETTA SKA BORT EFTERSOM VI SKA GÅ VIA APIET
-
+            //ANTAR ATT DETTA SKA BORT EFTERSOM VI SKA Gï¿½ VIA APIET
             //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             //builder.Services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseSqlServer(connectionString));
@@ -30,16 +29,13 @@ namespace Project_ASP.NET_NinjaTurtles
                 client.BaseAddress = new Uri("https://localhost:7058/");
             });
 
-
-
             //builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddDefaultTokenProviders()
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            //builder.Services.AddScoped<IEmailSender, EmailSender>(); //DENNA GER ERROR FÖR MIG /FM
+            //builder.Services.AddScoped<IEmailSender, EmailSender>(); //DENNA GER ERROR Fï¿½R MIG /FM
 
             builder.Services.AddScoped<APIService>();
-
 
             builder.Services.AddRazorPages();
 
