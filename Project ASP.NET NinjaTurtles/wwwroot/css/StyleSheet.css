@@ -9,11 +9,27 @@ footer {
     color: #5a5a5a;
     padding: 20px;
 }
-#orderMonth{
-    width: 900px;
-    height: 400px;
+
+#aboutUs {
+    text-align: center;
 }
-#productsInStock {
-    width: 800px;
-    height: 800px;
+
+#navlink:hover{
+    color: red;
+}
+
+.dashboard {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.dashboard-container {
+    justify-content: center;
+}
+
+#orderPerDay, #orderMonth, #productStock {
+    width: auto;
+    height: auto;
 }
