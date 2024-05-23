@@ -140,10 +140,10 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(Guid id)
-        {
-            return _context.Products.Any(e => e.ProductId == id);
-        }
+        //private bool ProductExists(Guid id)
+        //{
+        //    return _context.Products.Any(e => e.ProductId == id);
+        //}
 
     }
 }
