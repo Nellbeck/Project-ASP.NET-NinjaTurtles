@@ -124,7 +124,7 @@ namespace Project_ASP.NET_NinjaTurtles.Services
 
         //////////////// Order //////////////////
 
-        public async Task<List<Order>> GetOrdersAsync()
+        public async Task<IList<Order>> GetOrdersAsync()
         {
             try
             {
@@ -134,7 +134,7 @@ namespace Project_ASP.NET_NinjaTurtles.Services
                     return new List<Order>();
                 }
                 var jsonstring = await response.Content.ReadAsStringAsync();
-                var orders = JsonConvert.DeserializeObject<List<Order>>(jsonstring);
+                var orders = JsonConvert.DeserializeObject<IList<Order>>(jsonstring);
                 return orders;
             }
             catch (Exception ex)

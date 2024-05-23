@@ -22,7 +22,8 @@ namespace Project_ASP.NET_NinjaTurtles
             builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            builder.Services.AddScoped<IEmailSender, EmailSender, APIService>();
+            builder.Services.AddScoped<APIService>();
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddRazorPages();

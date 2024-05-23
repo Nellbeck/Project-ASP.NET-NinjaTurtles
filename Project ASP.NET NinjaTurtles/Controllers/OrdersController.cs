@@ -23,8 +23,8 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-
-            return View(await _service.GetOrdersAsync());
+            var order = await _service.GetOrdersAsync();    
+            return View(order);
         }
 
         // GET: Orders/Details/5
@@ -35,7 +35,7 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
                 return NotFound();
             }
 
-            var order = await _service.FindProductAsync(id);
+            var order = await _service.FindOrderAsync(id);
             if (order == null)
             {
                 return NotFound();
@@ -61,10 +61,11 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderId,FKCustomerId, FKProductId,OrderDate")] Order order)
+        public async Task<IActionResult> Create([Bind("OrderId,FKCustomerId,OrderDate")] Order order)
         {
             if (ModelState.IsValid)
             {
+
                 order.OrderId = Guid.NewGuid();
                 await _service.AddOrdersAsync(order);
                 return RedirectToAction(nameof(Index));
@@ -101,7 +102,7 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("OrderId,FKCustomerId, FKProductId,OrderDate")] Order order)
+        public async Task<IActionResult> Edit(Guid id, [Bind("OrderId,FKCustomerId,OrderDate")] Order order)
         {
             if (id != order.OrderId)
             {
@@ -157,29 +158,24 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
                 await _service.DeleteOrderAsync(id);
             }
 
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> Dashboard()
-        {
-            var orders = await _context.Orders.Include(p => p.Products).Include(c => c.Customer).ToListAsync();
-            return View(orders);
-        }
+        //public async Task<IActionResult> Dashboard()
+        //{
+        //    var orders = await _context.Orders.Include(p => p.Products).Include(c => c.Customer).ToListAsync();
+        //    return View(orders);
+        //}
 
-        public async Task<IActionResult> SalesPerDay()
-        {
-            var ordersPerDay = await _context.Orders
-                .Include(p => p.Products)
-                .Include(c => c.Customer)
-                .GroupBy(s => s.OrderDate)
-                .ToListAsync();
+        //public async Task<IActionResult> SalesPerDay()
+        //{
+        //    var ordersPerDay = await _context.Orders
+        //        .Include(p => p.Products)
+        //        .Include(c => c.Customer)
+        //        .GroupBy(s => s.OrderDate)
+        //        .ToListAsync();
 
-            return View(ordersPerDay);
-        }
-
-
-            return RedirectToAction(nameof(Index));
-        }
+        //    return View(ordersPerDay);
+        //}
+        
     }
 }
