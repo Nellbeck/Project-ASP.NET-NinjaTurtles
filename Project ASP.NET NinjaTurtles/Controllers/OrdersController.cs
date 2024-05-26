@@ -66,11 +66,10 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderId,FKCustomerId,OrderDate")] Order order)
+        public async Task<IActionResult> Create([Bind("OrderId,FKCustomerId,OrderDate,FKProductId")] Order order)
         {
             if (ModelState.IsValid)
             {
-
                 order.OrderId = Guid.NewGuid();
                 await _service.AddOrdersAsync(order);
                 return RedirectToAction(nameof(Index));
