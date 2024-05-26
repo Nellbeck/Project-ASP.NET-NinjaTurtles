@@ -13,7 +13,7 @@ namespace Project_ASP.NET_NinjaTurtles.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Project_ASP.NET_NinjaTurtles.Models.OrderProduct> OrderProduct { get; set; } = default!;
+        public DbSet<OrderProduct> ProductsProducts { get; set; }
 
     }
 }

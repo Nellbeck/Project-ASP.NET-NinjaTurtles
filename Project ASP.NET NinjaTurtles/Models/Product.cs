@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿
+using System.ComponentModel.DataAnnotations;
 
 namespace Project_ASP.NET_NinjaTurtles.Models
 {
@@ -16,10 +16,7 @@ namespace Project_ASP.NET_NinjaTurtles.Models
         [StringLength(200)]
         public string ProductDescription { get; set; }
         public int ProductQuantity { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public ICollection<Order>? Orders { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public ICollection<OrderProduct>? OrderProduct { get; set; }
-
+        public ICollection<Product> Products { get; set; } = [];
+        public ICollection<OrderProduct> OrderProducts { get; set; } = [];
     }
 }

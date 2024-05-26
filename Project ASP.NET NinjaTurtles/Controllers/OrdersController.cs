@@ -41,6 +41,17 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
             }
 
             var order = await _service.FindOrderAsync(id);
+            
+            var getCustomer = await _service.GetCutomersAsync();
+            List<Customer> customer = getCustomer.Where(x => x.CustomerId == order.FKCustomerId).ToList();
+
+            var getProduct = await _service.GetProductsAsync();
+            List<Product> products = getProduct.Where(x => x.ProductId == order.FKProductId).ToList();
+            decimal price = products.Select(x => x.ProductPrice).Sum();
+            decimal quantity = order.OrderQuantity;
+            ViewBag.Product = products;
+            ViewBag.Customer = customer;
+            ViewBag.Total = price * quantity;
             if (order == null)
             {
                 return NotFound();
@@ -51,12 +62,13 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
 
         // GET: Orders/Create
         public IActionResult Create()
-        {
+        { 
 
             var customerListItems = _service.GetCutomersAsync().Result;
             ViewData["FKCustomerId"] = new SelectList(customerListItems, "CustomerId", "CustomerName");
 
             var productListItems = _service.GetProductsAsync().Result;
+
             ViewData["FKProductId"] = new SelectList(productListItems, "ProductId", "ProductName");
             return View();
         }
@@ -66,13 +78,18 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderId,FKCustomerId,OrderDate")] Order order)
+        public async Task<IActionResult> Create([Bind("OrderId,FKCustomerId,OrderDate,OrderQuantity,FKProductId")] Order order)
         {
+            OrderProduct orderProduct = new OrderProduct();
             if (ModelState.IsValid)
             {
-
+                order.OrderDate = DateTime.Now;
                 order.OrderId = Guid.NewGuid();
+                orderProduct.OrderProductId = Guid.NewGuid();
                 await _service.AddOrdersAsync(order);
+                orderProduct.FKProductId = order.FKProductId;
+                orderProduct.FKOrderId = order.OrderId;
+                await _service.AddOrderProductsAsync(orderProduct);
                 return RedirectToAction(nameof(Index));
             }
             var customerListItems = await _service.GetCutomersAsync();

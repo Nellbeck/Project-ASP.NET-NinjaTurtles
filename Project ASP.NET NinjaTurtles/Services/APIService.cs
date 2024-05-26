@@ -145,11 +145,30 @@ namespace Project_ASP.NET_NinjaTurtles.Services
             }
         }
 
+        public async Task<IList<OrderProduct>> GetOrderProductsAsync()
+        {
+            try
+            {
+                var response = await _client.GetAsync("orderProducts");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new List<OrderProduct>();
+                }
+                var jsonstring = await response.Content.ReadAsStringAsync();
+                var orders = JsonConvert.DeserializeObject<IList<OrderProduct>>(jsonstring);
+                return orders;
+            }
+            catch (Exception ex)
+            {
+                return new List<OrderProduct>();
+            }
+        }
+
         public async Task<List<Order>> GetDashboardAsync()
         {
             try
             {
-                var response = await _client.GetAsync("dashboards");
+                var response = await _client.GetAsync("orders");
                 if (!response.IsSuccessStatusCode)
                 {
                     return new List<Order>();
@@ -171,7 +190,13 @@ namespace Project_ASP.NET_NinjaTurtles.Services
             var response = await _client.PostAsync("orders", data);
             response.EnsureSuccessStatusCode();
         }
-
+        public async Task AddOrderProductsAsync(OrderProduct order)
+        {
+            var json = JsonConvert.SerializeObject(order);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync("orderProducts", data);
+            response.EnsureSuccessStatusCode();
+        }
         public async Task UpdateOrderAsync(Guid id, Order order)
         {
             var json = JsonConvert.SerializeObject(order);
