@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<Project_ASP.NET_NinjaTurtles.Models.Order>
-
 @{
     ViewData["Title"] = "Index";
 }
@@ -15,12 +14,14 @@
                 @Html.DisplayNameFor(model => model.Customer.CustomerName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Product.ProductName)
+                @Html.DisplayNameFor(model => model.Customer.CustomerAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer.CustomerZipCode)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.OrderDate)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -29,9 +30,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Customer.CustomerName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FKProductId)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.CustomerAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.CustomerZipCode)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OrderDate)
             </td>
