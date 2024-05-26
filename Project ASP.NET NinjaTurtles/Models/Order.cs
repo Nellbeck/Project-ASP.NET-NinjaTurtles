@@ -17,7 +17,7 @@ namespace Project_ASP.NET_NinjaTurtles.Models
         public int OrderQuantity { get; set; }
         [ForeignKey("Product")]
         public Guid FKProductId { get; set; }
-        public ICollection<Product> Products { get; set; } = [];
+        public Product? Product { get; set; }
         public ICollection<OrderProduct> OrderProducts { get; set; } = [];
 
 
