@@ -16,7 +16,10 @@ namespace Project_ASP.NET_NinjaTurtles.Models
         [StringLength(200)]
         public string ProductDescription { get; set; }
         public int ProductQuantity { get; set; }
-        public ICollection<Product> Products { get; set; } = [];
-        public ICollection<OrderProduct> OrderProducts { get; set; } = [];
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public ICollection<Order>? Orders { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public ICollection<OrderProduct>? OrderProduct { get; set; }
+        public string? ImgPath { get; set; }
     }
 }

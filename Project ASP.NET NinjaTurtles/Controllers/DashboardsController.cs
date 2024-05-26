@@ -13,34 +13,43 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         {
             _service = service;
         }
-        public async Task <IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var orders = await _service.GetDashboardAsync();//hämtrar ordrar från apiet
             var products = await _service.GetProductsAsync();//hämtar produkter från apiet
 
             var groupedOrdersDate = orders
                 .GroupBy(o => o.OrderDate.Date)
+                .OrderBy(g => g.Key)
                 .ToList();
 
-            //MÅSTE FÅ DENNA ATT FUNKA
+            var ordersAndSekPerDay = orders
+                .GroupBy(o => o.OrderDate.Date)
+                .Select(group => new OrderSummaryViewModel
+                {
+                    OrderDate = group.Key,
+                    TotalAmount = group.Sum(p => p.Product.ProductPrice)
+                }).ToList();
 
-            //var groupedAmount = orders
-            //    .GroupBy(o => o.Product.Sum(p => p.ProductPrice))
-            //    .ToList();
 
             var ordersPerMonth = orders.ToList();
 
             var allProducts = products.ToList();
+
+            //grupperar produktnamn i ordrarna som gjorts i maj
+            var mostPurchased = orders.Where(o => o.OrderDate.Month == 5).GroupBy(p => p.Product.ProductName).ToList();
 
             var model = new DashboardViewModel
             {
                 GroupedOrders = groupedOrdersDate,
                 Orders = ordersPerMonth,
                 Products = allProducts,
-                //GroupedAmount = groupedAmount
+                OrderSummaryViewModels = ordersAndSekPerDay,
+                MostPurchased = mostPurchased
             };
 
             return View(model);
         }
     }
+    
 }

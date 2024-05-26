@@ -5,6 +5,7 @@
     var low = new List<Product>();
     var medium = new List<Product>();
     var high = new List<Product>();
+
 }
 
 @foreach (var item in Model.Products)
@@ -97,14 +98,20 @@ else
     }
 }
 <div class="row dashboard-container">
-    <div class="dashboard col-md-6">
+    <div class="dashboard col-md-5">
         <canvas id="orderPerDay"></canvas>
     </div>
-    <div class="dashboard col-md-6">
-        <canvas id="productStock"></canvas>
+    <div class="dashboard col-md-5">
+        <canvas id="orderAmount"></canvas>
     </div>
-    <div class="dashboard col-md-6">
+    <div class="dashboard col-md-5">
         <canvas id="orderMonth"></canvas>
+    </div>
+    <div class="dashboard col-md-5">
+        <canvas id="mostPurchased"></canvas>
+    </div>
+    <div class="dashboard col-md-10">
+        <canvas id="productStock"></canvas>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -118,21 +125,57 @@ else
         data: {
             labels: [@foreach (var date in Model.GroupedOrders)
     {
-        @Html.Raw("'" + @date.Key.ToString("yyyy-MM-dd") + "'")
+        @Html.Raw("'" + date.Key.ToString("yyyy-MM-dd") + "'")
         @Html.Raw(",")
     }],
             datasets: [
                 {
-                    label: 'Antal köp per dag',
-                    backgroundColor: 'rgba(255, 223, 156)',
-                    borderColor: 'rgba(204, 178, 125)',
-                    borderWidth: 1,
-                    data: [@foreach (var count in Model.GroupedOrders)
+                    label: 'Orders per day',
+                    backgroundColor: 'rgba(104,128,71)',
+                    borderColor: 'rgba(102,102,102)',
+                    borderWidth: 1.5,
+    data: [@foreach(var orderCount in Model.GroupedOrders)
     {
-        @count.Count()
-        @Html.Raw(",")
+        @orderCount.Count();
+        @Html.Raw(",");
     }
-                            ]
+    ]
+    }
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    const priceContext = document.getElementById('orderAmount');
+
+    new Chart(priceContext, {
+        type: 'bar',
+        data: {
+            labels: [@foreach (var date in Model.GroupedOrders)
+    {
+        @Html.Raw("'" + date.Key.ToString("yyyy-MM-dd") + "'")
+        @Html.Raw(",")
+    }],
+            datasets: [
+                {
+                    label: 'Total order amount per day',
+                    backgroundColor: 'rgba(234,107,30)',
+                    borderColor: 'rgba(102,102,102)',
+                    borderWidth: 1.5,
+                    data: [
+    @foreach(var amount in Model.OrderSummaryViewModels)
+    {
+        @Html.Raw(amount.TotalAmount)
+    }
+    ]
                 }
             ]
         },
@@ -155,9 +198,9 @@ else
             labels: ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'],
             datasets: [
                 {
-                    label: 'Antal köp per månad',
-                    backgroundColor: 'rgba(255,167,142)',
-                    borderColor: 'rgba(235, 137, 112)',
+                    label: 'Orders per month',
+                    backgroundColor: 'rgba(78,140,129)',
+                    borderColor: 'rgba(102,102,102)',
                     borderWidth: 1,
                     data: [@januari, @februari, @mars, @april, @maj, @juni, @juni, @augusti, @september, @oktober, @november, @december]
                 }
@@ -172,7 +215,43 @@ else
         }
     });
 
+    const productsPurchase = document.getElementById('mostPurchased');
 
+    new Chart(productsPurchase, {
+        type: 'bar',
+        data: {
+            labels: [@foreach (var product in Model.MostPurchased)
+    {
+        @Html.Raw("'" + product.Key + "'")
+        @Html.Raw(",")
+    }],
+            datasets: [
+                {
+                    label: 'Most purchased products in May',
+                    backgroundColor: 'rgba(188,157,154)',
+                    borderColor: 'rgba(102,102,102)',
+                    borderWidth: 1.5,
+                    data: [@foreach (var count in Model.MostPurchased)
+    {
+        @count.Count()
+        ;
+        @Html.Raw(",")
+        ;
+    }
+            ]
+                }
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
     const productContext = document.getElementById('productStock');
 
     new Chart(productContext, {
@@ -184,15 +263,15 @@ else
     }],
             datasets: [
                 {
-                    label: 'Lagerstatus',
+                    label: 'Products in stock',
                     data: [@foreach (var item in Model.Products)
     {
         @Html.Raw(item.ProductQuantity + ",")
     }
-                            ],
-                    backgroundColor: ['rgba(147, 195, 182)'],
-                    borderColor: ['rgba(127, 165, 152)'],
-                    borderWidth: 1
+                                ],
+                    backgroundColor: 'rgba(254,204,139)',
+                    borderColor: ['rgba(102,102,102)'],
+                    borderWidth: 1.5
                 }
             ]
         },
@@ -213,7 +292,7 @@ else
                             borderWidth: 2,
                             label: {
                                 enabled: true,
-                                content: 'Lagergräns 20',
+                                content: 'Under 20 items in stock',
                                 position: 'end'
                             }
                         }

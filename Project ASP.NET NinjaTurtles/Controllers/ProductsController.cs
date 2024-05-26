@@ -25,6 +25,10 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         {
             return View(await _APIService.GetProductsAsync());
         }
+        public async Task<IActionResult> ProductPictures()
+        {
+            return View(await _APIService.GetProductsAsync());
+        }
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(Guid id)

@@ -17,10 +17,10 @@ namespace Project_ASP.NET_NinjaTurtles
             // Add services to the container.
 
             //ANTAR ATT DETTA SKA BORT EFTERSOM VI SKA G� VIA APIET
-            //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(connectionString));
-            //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString));
+            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddControllersWithViews();
 
@@ -29,11 +29,11 @@ namespace Project_ASP.NET_NinjaTurtles
                 client.BaseAddress = new Uri("https://localhost:7058/");
             });
 
-            //builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddDefaultTokenProviders()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            //builder.Services.AddScoped<IEmailSender, EmailSender>(); //DENNA GER ERROR F�R MIG /FM
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
 
             builder.Services.AddScoped<APIService>();
 
