@@ -1,12 +1,13 @@
 ﻿body {
+    background-color: #ffffff;
 }
 
 footer {
-    position: absolute; /* Fixera fotern längst ned på sidan */
-    bottom: 0; /* Placera fotern längst ned */
-    width: 100%; /* Ta hela bredden av sidan */
-    background-color: #f8f9fa; /* Bakgrundsfärg */
-    color: #5a5a5a;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #efefef;
+    color: black;
     padding: 20px;
 }
 
@@ -14,22 +15,46 @@ footer {
     text-align: center;
 }
 
-#navlink:hover{
-    color: red;
-}
-
 .dashboard {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    background-color: #f2f2f2;
+    border: 1px solid #666666;
+    border-radius: 15px;
     padding: 20px;
+    margin: 10px;
+}
+.pictures-container {
+    justify-content: center;
+}
+.product-image {
+    width: 300px;
+    height: 400px;
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard-container {
     justify-content: center;
 }
+.navbar-nav .nav-link:hover {
+    font-weight: bold;
+}
 
-#orderPerDay, #orderMonth, #productStock {
-    width: auto;
-    height: auto;
+a:hover {
+    color: #f49e6f;
+}
+a {
+    color: #5a5a5a;
+    text-decoration: none;
+}
+.product-info{
+    text-align: center;
+}
+
+.btn {
+    background-color: #f49e6f;
+    border-color: #666666;
+    color: #5a5a5a;
+}
+.btn:hover {
+    background-color: #e27336;
 }

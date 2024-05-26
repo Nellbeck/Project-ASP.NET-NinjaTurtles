@@ -149,7 +149,7 @@ namespace Project_ASP.NET_NinjaTurtles.Services
         {
             try
             {
-                var response = await _client.GetAsync("dashboards");
+                var response = await _client.GetAsync("orders");
                 if (!response.IsSuccessStatusCode)
                 {
                     return new List<Order>();

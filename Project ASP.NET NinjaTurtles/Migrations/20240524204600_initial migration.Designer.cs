@@ -9,18 +9,18 @@ using Project_ASP.NET_NinjaTurtles.Data;
 
 #nullable disable
 
-namespace Project_ASP.NET_NinjaTurtles.Data.Migrations
+namespace Project_ASP.NET_NinjaTurtles.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240514085625_admin")]
-    partial class admin
+    [Migration("20240524204600_initial migration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -229,13 +229,13 @@ namespace Project_ASP.NET_NinjaTurtles.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Address")
+                    b.Property<string>("CustomerAddress")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateOnly>("BirthDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CustomerBirthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CustomerEmail")
                         .IsRequired()
@@ -252,7 +252,7 @@ namespace Project_ASP.NET_NinjaTurtles.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("ZipCode")
+                    b.Property<int>("CustomerZipCode")
                         .HasColumnType("int");
 
                     b.HasKey("CustomerId");
@@ -275,17 +275,11 @@ namespace Project_ASP.NET_NinjaTurtles.Data.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("OrderQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("ProductsProductId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("OrderId");
 
                     b.HasIndex("FKCustomerId");
 
-                    b.HasIndex("ProductsProductId");
+                    b.HasIndex("FKProductId");
 
                     b.ToTable("Orders");
                 });
@@ -376,15 +370,15 @@ namespace Project_ASP.NET_NinjaTurtles.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Product", "Products")
+                    b.HasOne("Project_ASP.NET_NinjaTurtles.Models.Product", "Product")
                         .WithMany("Orders")
-                        .HasForeignKey("ProductsProductId")
+                        .HasForeignKey("FKProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");
 
-                    b.Navigation("Products");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Project_ASP.NET_NinjaTurtles.Models.Customer", b =>
