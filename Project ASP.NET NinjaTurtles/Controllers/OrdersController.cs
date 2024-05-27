@@ -39,8 +39,17 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
             {
                 return NotFound();
             }
-
+            
             var order = await _service.FindOrderAsync(id);
+            
+            var getCustomer = await _service.GetCutomersAsync();
+            List<Customer> customer = getCustomer.Where(x => x.CustomerId == order.FKCustomerId).ToList();
+
+            var getProduct = await _service.GetProductsAsync();
+            List<Product> products = getProduct.Where(x => x.ProductId == order.FKProductId).ToList();
+
+            ViewBag.Product = products;
+            ViewBag.Customer = customer;
             if (order == null)
             {
                 return NotFound();
@@ -51,12 +60,13 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
 
         // GET: Orders/Create
         public IActionResult Create()
-        {
+        { 
 
             var customerListItems = _service.GetCutomersAsync().Result;
             ViewData["FKCustomerId"] = new SelectList(customerListItems, "CustomerId", "CustomerName");
 
             var productListItems = _service.GetProductsAsync().Result;
+
             ViewData["FKProductId"] = new SelectList(productListItems, "ProductId", "ProductName");
             return View();
         }
@@ -66,10 +76,11 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderId,FKCustomerId,OrderDate,FKProductId")] Order order)
+        public async Task<IActionResult> Create([Bind("OrderId,FKCustomerId,OrderDate,OrderQuantity,FKProductId")] Order order)
         {
             if (ModelState.IsValid)
             {
+                order.OrderDate = DateTime.Now;
                 order.OrderId = Guid.NewGuid();
                 await _service.AddOrdersAsync(order);
                 return RedirectToAction(nameof(Index));

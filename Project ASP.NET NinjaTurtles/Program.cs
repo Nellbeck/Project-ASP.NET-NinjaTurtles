@@ -14,6 +14,8 @@ namespace Project_ASP.NET_NinjaTurtles
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            var apiUri = Environment.GetEnvironmentVariable("ApiUri") ?? builder.Configuration["ApiUri"];
+
             // Add services to the container.
 
             //ANTAR ATT DETTA SKA BORT EFTERSOM VI SKA G� VIA APIET
@@ -26,7 +28,7 @@ namespace Project_ASP.NET_NinjaTurtles
 
             builder.Services.AddHttpClient("API Client", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7058/");
+                client.BaseAddress = new Uri(apiUri);
             });
 
             builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
