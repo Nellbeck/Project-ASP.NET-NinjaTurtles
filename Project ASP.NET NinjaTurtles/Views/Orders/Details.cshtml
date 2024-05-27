@@ -47,29 +47,17 @@
     <hr />
     <dl class="row">
     <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Products.First().ProductName)
+        @Html.DisplayNameFor(model => model.Product.ProductName)
     </dt>
     <dd class="col-sm-10">
         @((ViewBag.Product as List<Product>).First().ProductName)
     </dd>
     <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Products.First().ProductPrice)
+        @Html.DisplayNameFor(model => model.Product.ProductPrice)
     </dt>
         <dd class="col-sm-10">
             @((ViewBag.Product as List<Product>).First().ProductPrice)
         </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.OrderQuantity)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.OrderQuantity)
-    </dd>
-        <hr />
-    <dt class="col-sm-2">
-        Total sum:
-    </dt> 
-    <dd class="col-sm-10"> @ViewBag.Total</dd> 
-    </dl>
 
 </div>
 <div>
