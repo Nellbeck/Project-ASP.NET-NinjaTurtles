@@ -1,14 +1,7 @@
 ﻿@model Project_ASP.NET_NinjaTurtles.Models.Product
 
-@{
-    ViewData["Title"] = "Details";
-}
-
-<h1>Details</h1>
-
 <div>
-    <h4>Product</h4>
-    <hr />
+    <h4>Product details</h4>
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ProductName)
@@ -37,6 +30,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ProductId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.ProductId">Edit</a>
     <a asp-action="Index">Back to List</a>
 </div>

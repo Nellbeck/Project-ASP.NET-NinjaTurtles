@@ -23,6 +23,7 @@ namespace Project_ASP.NET_NinjaTurtles.Controllers
                 .OrderBy(g => g.Key)
                 .ToList();
 
+            //behöver felsöka denna för den sista datumet får alla ordrars totala priser
             var ordersAndSekPerDay = orders
                 .GroupBy(o => o.OrderDate.Date)
                 .Select(group => new OrderSummaryViewModel
