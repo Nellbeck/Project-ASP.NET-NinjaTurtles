@@ -21,7 +21,7 @@
     <h4>Customer</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Customer.CustomerName)
         </dt>
         <dd class="col-sm-10"> @((ViewBag.Customer as List<Customer>).First().CustomerName)</dd>
@@ -29,7 +29,7 @@
             @Html.DisplayNameFor(model => model.Customer.CustomerPhone)
         </dt>
         <dd class="col-sm-10"> @((ViewBag.Customer as List<Customer>).First().CustomerPhone)</dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Customer.CustomerEmail)
         </dt>
         <dd class="col-sm-10"> @((ViewBag.Customer as List<Customer>).First().CustomerEmail)</dd>
@@ -46,15 +46,15 @@
     <h4>Products</h4>
     <hr />
     <dl class="row">
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Product.ProductName)
-    </dt>
-    <dd class="col-sm-10">
-        @((ViewBag.Product as List<Product>).First().ProductName)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Product.ProductPrice)
-    </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.ProductName)
+        </dt>
+        <dd class="col-sm-10">
+            @((ViewBag.Product as List<Product>).First().ProductName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.ProductPrice)
+        </dt>
         <dd class="col-sm-10">
             @((ViewBag.Product as List<Product>).First().ProductPrice)
         </dd>
