@@ -1,7 +1,14 @@
 {
   "dependencies": {
+    "sqlite1": {
+      "ignored": "true",
+      "type": "sqlite"
+    },
     "mssql1": {
-      "type": "mssql.local",
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ServiceLinker/locations/swedencentral/connectors/ConnectionStringsDefaultConnection_4A1ED24B4D",
+      "secretStore": "LocalSecretsFile",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/ninjaturtles/databases/Project_ASP.NET_NinjaTurtles",
+      "type": "mssql.azure",
       "connectionId": "ConnectionStrings:DefaultConnection"
     }
   }

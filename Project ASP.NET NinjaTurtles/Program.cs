@@ -26,7 +26,7 @@ namespace Project_ASP.NET_NinjaTurtles
 
             builder.Services.AddHttpClient("API Client", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7058/");
+                client.BaseAddress = new Uri("https://projectapiaspnetninjaturtles-api.azurewebsites.net");
             });
 
             builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
