@@ -24,7 +24,7 @@ namespace Project_ASP.NET_NinjaTurtles.Models
         [DisplayName("Product ID")]
         public Guid FKProductId { get; set; }
         public Product? Product { get; set; }
-        public ICollection<OrderProduct> OrderProducts { get; set; } = [];//behövs denna?
+        public ICollection<OrderProduct> OrderProducts { get; set; } = [];
 
     }
 }
