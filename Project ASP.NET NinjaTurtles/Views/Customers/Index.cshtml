@@ -1,14 +1,9 @@
 ﻿@model IEnumerable<Project_ASP.NET_NinjaTurtles.Models.Customer>
 
-@{
-    ViewData["Title"] = "Index";
-}
+<h4 class="sub-header">
+    <a asp-action="Create">Create new customer</a>
+</h4>
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -55,9 +50,9 @@
                 @Html.DisplayFor(modelItem => item.CustomerZipCode)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.CustomerId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CustomerId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CustomerId">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.CustomerId"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a asp-action="Details" asp-route-id="@item.CustomerId"><i class="fa-solid fa-circle-info"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.CustomerId"><i class="fa-solid fa-trash"></i></a>
             </td>
         </tr>
 }

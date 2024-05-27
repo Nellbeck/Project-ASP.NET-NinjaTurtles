@@ -1,14 +1,11 @@
 ﻿@model IEnumerable<Project_ASP.NET_NinjaTurtles.Models.Product>
 
-@{
-    ViewData["Title"] = "Index";
-}
 <article class="product-info">
     <h2>Our products</h2>
     <p>Our webshop is under construction, but please take a look at our collection.</p>
 </article>
 <div class="row pictures-container">
-    @foreach (var item in Model)
+    @foreach (var item in Model.OrderBy(p => p.ProductName))
     {
         <div class="col-md-4 text-center mb-4">
             <img src="@Html.DisplayFor(modelItem => item.ImgPath)" class="product-image" alt="@Html.DisplayFor(modelItem => item.ProductName)" />

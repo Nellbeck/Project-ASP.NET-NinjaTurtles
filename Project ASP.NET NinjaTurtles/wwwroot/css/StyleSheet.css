@@ -53,8 +53,19 @@ a {
 .btn {
     background-color: #f49e6f;
     border-color: #666666;
-    color: #5a5a5a;
+    color: black;
 }
 .btn:hover {
     background-color: #e27336;
+}
+
+.fa-solid {
+    padding: 5px;
+}
+.form-group{
+    padding: 8px;
+    color: black;
+}
+.form-control {
+    border-color: #484848;
 }
