@@ -134,13 +134,13 @@ else
                     backgroundColor: 'rgba(104,128,71)',
                     borderColor: 'rgba(102,102,102)',
                     borderWidth: 1.5,
-    data: [@foreach(var orderCount in Model.GroupedOrders)
-    {
-        @orderCount.Count();
-        @Html.Raw(",");
-    }
-    ]
-    }
+                    data: [@foreach(var orderCount in Model.GroupedOrders)
+                    {
+                        @orderCount.Count();
+                        @Html.Raw(",");
+                    }
+                    ]
+                }
             ]
         },
         options: {
@@ -171,11 +171,11 @@ else
                     borderColor: 'rgba(102,102,102)',
                     borderWidth: 1.5,
                     data: [
-    @foreach(var amount in Model.OrderSummaryViewModels)
-    {
-        @Html.Raw(amount.TotalAmount)
-    }
-    ]
+                        @foreach(var amount in Model.OrderSummaryViewModels)
+                        {
+                            @Html.Raw(amount.TotalAmount);
+                        }
+                    ]
                 }
             ]
         },
@@ -233,10 +233,8 @@ else
                     borderWidth: 1.5,
                     data: [@foreach (var count in Model.MostPurchased)
     {
-        @count.Count()
-        ;
-        @Html.Raw(",")
-        ;
+        @count.Count();
+        @Html.Raw(",");
     }
             ]
                 }
